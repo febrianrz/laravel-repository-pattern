@@ -1,0 +1,31 @@
+{
+    "name": "febrianreza/repository-pattern",
+    "description": "Basic repository pattern",
+    "type": "library",
+    "require": {
+        "yajra/laravel-datatables-oracle": "10.x-dev",
+        "yajra/laravel-datatables-fractal": "10.0.x-dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Febrianreza\\RepositoryPattern\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Febrianrz"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Febrianrz\\RepositoryPattern\\Provider\\RepositoryPatternProvider"
+            ],
+            "aliases": {
+                "Debugbar": "Barryvdh\\Debugbar\\Facade"
+            }
+        }
+    }
+}

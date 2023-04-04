@@ -1,0 +1,21 @@
+<?php
+
+
+namespace App\Services;
+
+use App\Models\{ModelName};
+use Febrianrz\RepositoryPattern\Service\MainServiceEloquent;
+
+class {ModelName}Service extends MainServiceEloquent
+{
+    /**
+     * Company constructor.
+     *
+     * @param {ModelName} $model
+     */ public function __construct({ModelName} $model)
+    {
+        parent::__construct($model);
+
+    }
+
+}

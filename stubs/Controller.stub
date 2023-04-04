@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Febrianrz\RepositoryPattern\Controller\RESTController;
+
+class {ModelName}Controller extends RESTController
+{
+    public function __construct (\Febrianrz\RepositoryPattern\Contract\RestServiceInterface $service)
+    {
+        parent::__construct($service);
+        {lineRequest}
+        {lineResource}
+    }
+
+
+}
