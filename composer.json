@@ -1,5 +1,5 @@
 {
-    "name": "febrianreza/repository-pattern",
+    "name": "febrianrz/repository-pattern",
     "description": "Basic repository pattern",
     "type": "library",
     "require": {
