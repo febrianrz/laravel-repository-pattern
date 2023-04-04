@@ -21,11 +21,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Febrianrz\\RepositoryPattern\\RepositoryPatternProvider"
-            ],
-            "aliases": {
-                "Debugbar": "Barryvdh\\Debugbar\\Facade"
-            }
+                "Febrianrz\\RepositoryPattern\\Provider\\RepositoryPatternProvider"
+            ]
         }
     }
 }
