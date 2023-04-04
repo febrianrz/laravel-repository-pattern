@@ -66,7 +66,7 @@ class MakeServiceCommand extends Command
         if ($this->isCreateController) {
             $stub = $this->getStub('Controller');
             $replacement = [
-                '{Path}'         => $this->path ?? '',
+                '{Path}'         => $this->path ? "\\$this->path" ? '',
                 '{ModelName}'    => $this->modelName,
                 '{lineRequest}'  => $this->isCreateRequest ? '$this->request' . " = \App\Http\Requests\\" . $this->modelName . "Request::class;" : '',
                 '{lineResource}' => $this->isCreateResource ? '$this->resource' . " = \App\Http\Resources\\" . $this->modelName . "Resource::class;" : ''
