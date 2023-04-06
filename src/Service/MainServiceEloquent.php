@@ -28,8 +28,9 @@ class MainServiceEloquent implements RestServiceInterface
         }
         if($request->has('search') && is_array($request->get('search'))){
             $searchs = $request->get('search');
+            $_modelObj = new $this->model;
             foreach($searchs as $field => $value){
-                if(Schema::hasColumn($_model->getTable(),$field)){
+                if(Schema::hasColumn($_modelObj->getTable(),$field)){
                     $_model->where($field,'like',"%{$value}%");
                 }
             }
