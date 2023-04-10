@@ -44,7 +44,7 @@ class RESTController extends \App\Http\Controllers\Controller
         $result = $this->service->list($request);
         $resource = $this->resource;
         $hidden = array_merge(config('repository-pattern.makeHidden',[]),$this->makeHidden);
-        return DataTables::eloquent($result)
+        return DataTables::eloquent($result->paginate(10))
             ->setTransformer(function($item) use ($resource){
                 return $resource::make($item)->resolve();
             })
