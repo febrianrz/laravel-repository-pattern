@@ -26,12 +26,20 @@ class MainServiceEloquent implements RestServiceInterface
         if(count($this->with) > 0) {
             $_model->with($this->with);
         }
+        $_modelObj = new $this->model;
         if($request->has('search') && is_array($request->get('search'))){
             $searchs = $request->get('search');
-            $_modelObj = new $this->model;
             foreach($searchs as $field => $value){
                 if(Schema::hasColumn($_modelObj->getTable(),$field)){
                     $_model->where($field,'like',"%{$value}%");
+                }
+            }
+        }
+        if($request->has('as') && is_array($request->get('as'))){
+            $as = $request->get('as');
+            foreach($as as $key => $value){
+                if(Schema::hasColumn($_modelObj->getTable(),$key)){
+                    $_model->where($key,'like',"%{$value}%");
                 }
             }
         }
