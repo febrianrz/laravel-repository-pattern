@@ -79,7 +79,7 @@ class MainServiceEloquent implements RestServiceInterface
             if(count($this->with) > 0) {
                 $_model->with($this->with);
             }
-            $_model->where('id',$id)->firstOrFail();
+            $_model = $_model->where('id',$id)->firstOrFail();
             return $_model;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
