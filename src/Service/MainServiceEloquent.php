@@ -2,6 +2,7 @@
 namespace Febrianrz\RepositoryPattern\Service;
 
 use Febrianrz\RepositoryPattern\Contract\RestServiceInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -118,7 +119,7 @@ class MainServiceEloquent implements RestServiceInterface
         // TODO: Implement restore() method.
     }
 
-    public function queryIndex(Model &$model) {
+    public function queryIndex(Builder &$model) {
 
     }
 
