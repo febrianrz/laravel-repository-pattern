@@ -75,7 +75,11 @@ class MainServiceEloquent implements RestServiceInterface
     public function detail (string $id, array $relationship = [])
     {
         try {
-            $_model = $this->model::findOrFail($id);
+            $_model =  ($this->model)::query();
+            if(count($this->with) > 0) {
+                $_model->with($this->with);
+            }
+            $_model->where('id',$id)->firstOrFail();
             return $_model;
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
