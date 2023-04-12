@@ -43,6 +43,7 @@ class MainServiceEloquent implements RestServiceInterface
                 }
             }
         }
+        $this->queryIndex($_model);
         return $_model;
     }
 
@@ -115,6 +116,10 @@ class MainServiceEloquent implements RestServiceInterface
     public function restore (string $id)
     {
         // TODO: Implement restore() method.
+    }
+
+    public function queryIndex(Model &$model) {
+
     }
 
     public function beforeStore (Model $model, Request $request)
