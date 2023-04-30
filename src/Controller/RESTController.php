@@ -44,12 +44,18 @@ class RESTController extends \App\Http\Controllers\Controller
         $result = $this->service->list($request);
         $resource = $this->resource;
         $hidden = array_merge(config('repository-pattern.makeHidden',[]),$this->makeHidden);
-        return DataTables::collection($result->paginate($request->input('perPage') ?? 25)->getCollection())
+        $data = DataTables::collection($result->paginate($request->input('perPage') ?? 25)->getCollection())
             ->setTransformer(function($item) use ($resource){
                 return $resource::make($item)->resolve();
             })
+            ->addColumn('recordsTotal',function($query){
+                return 1000;
+            })
             ->makeHidden($hidden)
-            ->toJson();
+            ->make(true);
+        $data = $data->original;
+        $data['recordsAll'] = $result->count();
+        return response()->json($data);
     }
 
     public function store ()
