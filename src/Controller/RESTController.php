@@ -58,7 +58,7 @@ class RESTController extends \App\Http\Controllers\Controller
         $data['recordsAll'] = $totalData;
         $data['currentPage'] = (int)$request->input('page') ?? 1;
         $data['totalPage'] = (int)($data['recordsAll'] > $perPage) ? ceil($data['recordsAll'] / $perPage) : 1;
-        $data['isLastPage'] = ($data['currentPage'] == $data['totalPage']);
+        $data['isLastPage'] = ($data['currentPage'] >= $data['totalPage']);
         return response()->json($data);
     }
 
@@ -92,7 +92,8 @@ class RESTController extends \App\Http\Controllers\Controller
     {
         try {
             $result = $this->service->detail($id);
-            return $this->responseSuccess("Successfully show data", $result, 200);
+            $resource = new $this->resource($result);
+            return $this->responseSuccess("Successfully show data", $resource, 200);
         } catch (\Exception $e) {
             return $this->responseError($e->getMessage());
         }
