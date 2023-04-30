@@ -40,11 +40,12 @@ class RESTController extends \App\Http\Controllers\Controller
      */
     public function index (Request $request): JsonResponse
     {
-        // get data menu
         $result = $this->service->list($request);
         $resource = $this->resource;
         $hidden = array_merge(config('repository-pattern.makeHidden',[]),$this->makeHidden);
-        $data = DataTables::collection($result->paginate($request->input('perPage') ?? 25)->getCollection())
+        $perPage = $request->input('perPage') ?? 25;
+        $totalData = $result->count();
+        $data = DataTables::collection($result->paginate($perPage)->getCollection())
             ->setTransformer(function($item) use ($resource){
                 return $resource::make($item)->resolve();
             })
@@ -54,7 +55,10 @@ class RESTController extends \App\Http\Controllers\Controller
             ->makeHidden($hidden)
             ->make(true);
         $data = $data->original;
-        $data['recordsAll'] = $result->count();
+        $data['recordsAll'] = $totalData;
+        $data['currentPage'] = (int)$request->input('page') ?? 1;
+        $data['totalPage'] = (int)($data['recordsAll'] > $perPage) ? ceil($data['recordsAll'] / $perPage) : 1;
+        $data['isLastPage'] = ($data['currentPage'] == $data['totalPage']);
         return response()->json($data);
     }
 
