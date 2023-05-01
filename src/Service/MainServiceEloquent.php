@@ -80,6 +80,7 @@ class MainServiceEloquent implements RestServiceInterface
             }
             $this->beforeStore($_model,\request());
             $_model->save();
+            $this->afterStore($_model,\request());
             DB::commit();
             return $_model;
         } catch (\Exception $e) {
@@ -111,7 +112,9 @@ class MainServiceEloquent implements RestServiceInterface
             if(Schema::hasColumn($_model->getTable(),'updated_by')) {
                 $_model->updated_by = Auth::id();
             }
+            $this->beforeUpdate($_model,\request());
             $_model->save();
+            $this->afterUpdate($_model, \request());
             DB::commit();
             return $_model;
         } catch (\Exception $e) {
@@ -125,7 +128,9 @@ class MainServiceEloquent implements RestServiceInterface
         try {
             DB::beginTransaction();
             $_model = $this->model::findOrFail($id);
+            $this->beforeDelete($_model,\request());
             $_model->delete();
+            $this->afterDelete($_model,\request());
             DB::commit();
             return $_model;
         } catch (\Exception $e) {
