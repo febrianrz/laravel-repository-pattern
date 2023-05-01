@@ -14,6 +14,8 @@ class MainServiceEloquent implements RestServiceInterface
     protected Model $model;
     protected array $with = [];
 
+    protected array $allowedSearch = [];
+
     public function __construct(Model $model) {
         $this->model = $model;
     }
@@ -21,6 +23,7 @@ class MainServiceEloquent implements RestServiceInterface
     public function list (Request $request): \Illuminate\Database\Eloquent\Builder
     {
         $_model =  ($this->model)::query();
+        $searchs = $request->get('search');
         if(count($this->getIndexFields()) > 0){
             $_model->select($this->getIndexFields());
         }
@@ -29,8 +32,9 @@ class MainServiceEloquent implements RestServiceInterface
         }
         $_modelObj = new $this->model;
         if($request->has('search') && is_array($request->get('search'))){
-            $searchs = $request->get('search');
+
             foreach($searchs as $field => $value){
+                if($field === 'quicksearch') continue;
                 if(Schema::hasColumn($_modelObj->getTable(),$field)){
                     $_model->where($field,'like',"%{$value}%");
                 }
@@ -45,7 +49,19 @@ class MainServiceEloquent implements RestServiceInterface
             }
         }
         $this->queryIndex($_model);
+        if(isset($searchs['quicksearch'])) {
+            $this->quickSearch($searchs['quicksearch'],$_model);
+        }
         return $_model;
+    }
+
+    protected function quickSearch(string $search, $query){
+        $fields = $this->allowedSearch;
+        $query->where(function($query) use($fields,$search){
+            foreach($fields as $f){
+                $query->orWhere($f,"like","%{$search}%");
+            }
+        });
     }
 
     /**
